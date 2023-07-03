@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UpdateTicketActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/viewTicketsToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/accountName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Consumer Name"
+                        style="@style/TextAppearance.AppCompat.Subhead"/>
+
+                    <TextView
+                        android:id="@+id/ticketNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ticket No: "/>
+
+                </LinearLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_column="2"
+                            android:layout_weight="2">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:contentPadding="10dp"
+                                android:layout_margin="5dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Ticket Details"
+                                        android:drawableLeft="@drawable/ic_baseline_assignment_24"
+                                        android:drawableTint="@color/primary_500"
+                                        android:textColor="@color/primary_500"
+                                        android:drawablePadding="10dp"/>
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1px"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:background="@color/grey_light"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Ticket Type"/>
+
+                                    <TextView
+                                        android:id="@+id/ticketType"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Reason"/>
+
+                                    <TextView
+                                        android:id="@+id/reason"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Account Number"/>
+
+                                    <TextView
+                                        android:id="@+id/acctNo"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Address"/>
+
+                                    <TextView
+                                        android:id="@+id/address"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Pole Number"/>
+
+                                    <TextView
+                                        android:id="@+id/poleNumber"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Contact Number"/>
+
+                                    <TextView
+                                        android:id="@+id/contact"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Coordinates"/>
+
+                                    <EditText
+                                        android:id="@+id/coordinates"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_column="1"
+                            android:layout_weight="1">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:contentPadding="10dp"
+                                android:layout_margin="5dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Execution"
+                                        android:drawableLeft="@drawable/ic_baseline_hardware_24"
+                                        android:drawableTint="@color/primary_500"
+                                        android:textColor="@color/primary_500"
+                                        android:drawablePadding="10dp"/>
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="1px"
+                                        android:layout_marginTop="5dp"
+                                        android:layout_marginBottom="5dp"
+                                        android:background="@color/grey_light"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Date/Time Lineman Arrived"/>
+
+                                    <TextView
+                                        android:id="@+id/linemanArrived"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Date/Time Lineman Executed"/>
+
+                                    <TextView
+                                        android:id="@+id/executed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Lineman/Crew Executed"/>
+
+                                    <TextView
+                                        android:id="@+id/crewExecuted"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Assessment"/>
+
+                                    <TextView
+                                        android:id="@+id/assessment"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Date of Entry"/>
+
+                                    <TextView
+                                        android:id="@+id/entry"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="7pt"
+                                        android:text="Remarks"/>
+
+                                    <EditText
+                                        android:id="@+id/remarks"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:background="@drawable/options_custom_form"
+                                        android:padding="8dp"
+                                        android:layout_marginBottom="10dp"/>
+
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+
+                    </TableRow>
+                </TableLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentPadding="10dp"
+                    android:layout_margin="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Meter Details"
+                            android:drawableLeft="@drawable/ic_baseline_av_timer_24"
+                            android:drawableTint="@color/primary_500"
+                            android:textColor="@color/primary_500"
+                            android:drawablePadding="10dp"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@color/grey_light"/>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TableRow
+                                android:layout_width="match_parent">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_column="1"
+                                    android:layout_weight="1">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:contentPadding="10dp"
+                                        android:layout_margin="5dp">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="Old Meter Number"/>
+
+                                            <EditText
+                                                android:id="@+id/oldMeterSerial"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/black"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:layout_marginBottom="10dp"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="Old Meter Brand"/>
+
+                                            <EditText
+                                                android:id="@+id/oldMeterBrand"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/black"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:layout_marginBottom="10dp"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="Seal Number"/>
+
+                                            <EditText
+                                                android:id="@+id/oldSeal"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:inputType="text"
+                                                android:hint="Input Seal Number Here"
+                                                android:layout_marginBottom="10dp"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="Old Meter Last Reading"/>
+
+                                            <EditText
+                                                android:id="@+id/oldMeterReading"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:inputType="numberDecimal"
+                                                android:hint="Input Reading Here"/>
+
+                                        </LinearLayout>
+
+                                    </com.google.android.material.card.MaterialCardView>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:layout_column="2"
+                                    android:layout_weight="2">
+
+                                    <com.google.android.material.card.MaterialCardView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:contentPadding="10dp"
+                                        android:layout_margin="5dp">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="New Meter Number"/>
+
+                                            <EditText
+                                                android:id="@+id/newMeterNumber"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:inputType="text"
+                                                android:hint="Input Meter Number Here"
+                                                android:layout_marginBottom="10dp"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="New Meter Brand"/>
+
+                                            <EditText
+                                                android:id="@+id/newMeterBrand"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:inputType="text"
+                                                android:hint="Input Brand Here"
+                                                android:layout_marginBottom="10dp"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="Seal Number"/>
+
+                                            <EditText
+                                                android:id="@+id/newSeal"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:inputType="text"
+                                                android:hint="Input Seal Number Here"
+                                                android:layout_marginBottom="10dp"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:textSize="7pt"
+                                                android:text="New Meter Last Reading"/>
+
+                                            <EditText
+                                                android:id="@+id/newMeterReading"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:background="@drawable/options_custom_form"
+                                                android:padding="8dp"
+                                                android:inputType="numberDecimal"
+                                                android:hint="Input Reading Here"
+                                                android:layout_marginBottom="10dp"/>
+
+                                        </LinearLayout>
+
+                                    </com.google.android.material.card.MaterialCardView>
+
+                                </LinearLayout>
+
+                            </TableRow>
+                        </TableLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <!--  Service Connections Panel  -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        app:contentPadding="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="80dp"
+        android:layout_gravity="left|top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/scQueueTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Service Connections"
+                        android:layout_column="1"
+                        android:layout_weight="10"
+                        android:paddingTop="8dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="8dp"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:background="?android:selectableItemBackground"/>
+
+                    <TextView
+                        android:id="@+id/ticketsQueueTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tickets/Complains"
+                        android:layout_column="2"
+                        android:layout_weight="10"
+                        android:paddingTop="8dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="8dp"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:background="?android:selectableItemBackground"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey_light"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewScHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewTicketsHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--  Menu Panel  -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:contentPadding="3dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="right|top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/refreshAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_refresh_24"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp"
+                android:tooltipText="Refresh"
+                app:tint="@color/secondary_500"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey_light"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <ImageButton
+                android:id="@+id/download"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_cloud_download_24"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp"
+                android:tooltipText="Download Service Connections"
+                app:tint="@color/secondary_500"/>
+
+            <ImageButton
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_cloud_upload_24"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp"
+                android:tooltipText="Upload Service Connections"
+                app:tint="@color/secondary_500"/>
+
+            <ImageButton
+                android:id="@+id/archive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_archive_24"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp"
+                android:tooltipText="History and Archives"
+                app:tint="@color/secondary_500"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/grey_light"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_settings_24"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp"
+                android:tooltipText="Settings"
+                app:tint="@color/secondary_500"/>
+
+            <ImageButton
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_round_login_24"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:background="?android:selectableItemBackground"
+                android:padding="10dp"
+                android:tooltipText="Logout"
+                app:tint="@color/secondary_500"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapViewForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mapbox_cameraZoom="13" />
+
+    <!--  STATUS BAR  -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/statustext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="7pt"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"/>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/statusprogress"
+            android:layout_width="10dp"
+            app:indicatorSize="16dp"
+            android:layout_height="10dp"
+            android:indeterminate="true"
+            android:progressTint="@color/sc_primary_500"
+            android:layout_gravity="right"/>
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
