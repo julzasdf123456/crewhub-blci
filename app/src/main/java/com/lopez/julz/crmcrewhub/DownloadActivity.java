@@ -1,5 +1,6 @@
 package com.lopez.julz.crmcrewhub;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import com.lopez.julz.crmcrewhub.api.RetrofitBuilder;
 import com.lopez.julz.crmcrewhub.classes.AlertHelpers;
 import com.lopez.julz.crmcrewhub.classes.DownloadAdapter;
 import com.lopez.julz.crmcrewhub.classes.DownloadTicketsAdapter;
+import com.lopez.julz.crmcrewhub.classes.FileExtractor;
 import com.lopez.julz.crmcrewhub.classes.ObjectHelpers;
 import com.lopez.julz.crmcrewhub.database.AppDatabase;
 import com.lopez.julz.crmcrewhub.database.ServiceConnectionInspections;
@@ -37,9 +40,15 @@ import com.lopez.julz.crmcrewhub.database.Settings;
 import com.lopez.julz.crmcrewhub.database.Tickets;
 import com.lopez.julz.crmcrewhub.database.TicketsDao;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,6 +64,7 @@ public class DownloadActivity extends AppCompatActivity {
     public RecyclerView downloadRecyclerView;
     public DownloadAdapter downloadAdapter;
     public List<ServiceConnections> serviceConnectionsList;
+    public List<ServiceConnections> tmpScList;
     public List<ServiceConnectionInspections> serviceConnectionInspectionsList;
 
     /**
@@ -75,6 +85,7 @@ public class DownloadActivity extends AppCompatActivity {
     public Settings settings;
 
     public String userId, crew;
+    public AlertDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +209,7 @@ public class DownloadActivity extends AppCompatActivity {
 
                 if (serviceConnection == null) {
                     serviceConnectionsList.add(serviceConnections.get(i));
+                    tmpScList.add(serviceConnections.get(i));
                 }
             }
             return null;
@@ -282,7 +294,13 @@ public class DownloadActivity extends AppCompatActivity {
             });
 
             // show alert dialog
-            AlertHelpers.showExitableInfoDialog(DownloadActivity.this, DownloadActivity.this, "Download finished!", "All data downloaded successfully!");
+//            AlertHelpers.showExitableInfoDialog(DownloadActivity.this, DownloadActivity.this, "Download finished!", "All data downloaded successfully!");
+            /**
+             * DOWNLOAD ASSOCIATED FILES
+             */
+            progressDialog = AlertHelpers.progressDialog(DownloadActivity.this, "Downloading", "Downloading data and files. Please wait...");
+            progressDialog.show();
+            downloadFiles();
         }
     }
 
@@ -436,6 +454,84 @@ public class DownloadActivity extends AppCompatActivity {
         }
     }
 
+    public void downloadFiles() {
+        try {
+            if (tmpScList != null && tmpScList.size() > 0) {
+                ServiceConnections sc = tmpScList.get(0);
+
+                if (sc != null) {
+                    String serviceId = sc.getId();
+                    Call<ResponseBody> dlFiles = requestPlaceHolder.getFiles(serviceId);
+                    dlFiles.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                // Assuming permission and external storage availability are already handled
+//                                File downloadsDirectory = new File(Environment.getExternalStorageDirectory() + File.separator + "SC_FILES");
+
+                                File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+                                File downloadedFile = new File(downloadsDirectory.getAbsolutePath(), ObjectHelpers.getTimeInMillis() + ".zip");
+
+                                if (!downloadedFile.exists()) {
+                                    try (InputStream inputStream = response.body().byteStream();
+                                         OutputStream outputStream = new FileOutputStream(downloadedFile)) {
+                                        byte[] fileReader = new byte[4096];
+                                        while (true) {
+                                            int read = inputStream.read(fileReader);
+                                            if (read == -1) {
+                                                break;
+                                            }
+                                            outputStream.write(fileReader, 0, read);
+                                        }
+                                        outputStream.flush();
+
+                                        // Extract file
+                                        String zipFile = downloadedFile.getAbsolutePath();
+                                        String folderSc = downloadsDirectory.getAbsolutePath() + "/lineman" + "/" + serviceId;
+                                        FileExtractor.extractZipFile(zipFile, folderSc);
+
+                                        tmpScList.remove(0);
+                                        downloadFiles();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            } else {
+                                if (progressDialog != null && progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                                AlertHelpers.showInfoDialog(DownloadActivity.this, "Error saving files", response.message());
+                                try {
+                                    Log.e("ERR_DL_FILES", response.errorBody().string());
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            if (progressDialog != null && progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                            AlertHelpers.showInfoDialog(DownloadActivity.this, "Error downloading files", t.getMessage());
+                            t.printStackTrace();
+                        }
+                    });
+                }
+            } else {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                AlertHelpers.showInfoDialog(DownloadActivity.this, "Download Success", "Inspection data and files downloaded!");
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            AlertHelpers.showInfoDialog(DownloadActivity.this, "Error downloading files", e.getMessage());
+        }
+    }
+
     public class FetchSettings extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -465,6 +561,7 @@ public class DownloadActivity extends AppCompatActivity {
                 downloadDataBtn = findViewById(R.id.downloadDataBtn);
 
                 serviceConnectionsList = new ArrayList<>();
+                tmpScList = new ArrayList<>();
                 serviceConnectionInspectionsList = new ArrayList<>();
                 downloadAdapter = new DownloadAdapter(serviceConnectionsList, DownloadActivity.this);
                 downloadRecyclerView.setAdapter(downloadAdapter);

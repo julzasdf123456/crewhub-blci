@@ -46,6 +46,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Address"/>
+
+                <TextView
+                    android:id="@+id/applicationType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Account Application Type"/>
             </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
@@ -59,8 +65,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/viewDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View Details"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="3dp"
+                    android:drawableLeft="@drawable/ic_baseline_info_18"
+                    android:drawableTint="@color/white" />
+
                 <!-- METER INSTALLATION AND ACCOUNTABILITY    -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/meterInstallationAccountability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -95,6 +113,31 @@
                             <TableRow
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="1"
+                                    android:layout_weight="5"
+                                    android:textColor="@color/black"
+                                    android:text="Account Number"/>
+
+                                <TextView
+                                    android:id="@+id/accountNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="2"
+                                    android:layout_weight="5"
+                                    android:padding="5dp"
+                                    style="@style/TextAppearance.AppCompat.Subhead"
+                                    android:background="@drawable/options_custom_form"/>
+
+                            </TableRow>
+
+                            <TableRow
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -312,16 +355,36 @@
                                     android:textColor="@color/black"
                                     android:text="Date Installed"/>
 
-                                <EditText
-                                    android:id="@+id/dateInstalled"
+                                <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_column="2"
-                                    android:layout_weight="5"
-                                    android:padding="5dp"
-                                    android:inputType="text"
-                                    android:background="@drawable/options_custom_form"
-                                    android:hint="Date Installed"/>
+                                    android:layout_weight="5">
+
+                                    <EditText
+                                        android:id="@+id/dateInstalled"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp"
+                                        android:layout_marginRight="10dp"
+                                        android:inputType="text"
+                                        android:background="@drawable/options_custom_form"
+                                        android:layout_toLeftOf="@id/dateInstalledBtn"
+                                        android:hint="Date Installed"/>
+
+                                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/dateInstalledBtn"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        app:backgroundTint="@color/white"
+                                        android:textColor="@color/sc_primary_700"
+                                        app:fabSize="mini"
+                                        app:elevation="0dp"
+                                        android:src="@drawable/ic_baseline_update_24"
+                                        app:tint="@color/sc_primary_700"/>
+                                </RelativeLayout>
+
 
                             </TableRow>
 
@@ -460,6 +523,8 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <include layout="@layout/extension_line_metering" />
+
                 <!--  CUSTOMER SIGNATURE   -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -581,16 +646,35 @@
                                     android:textColor="@color/black"
                                     android:text="Date Energized"/>
 
-                                <EditText
-                                    android:id="@+id/dateEnergized"
+                                <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_column="2"
-                                    android:layout_weight="5"
-                                    android:padding="5dp"
-                                    android:inputType="text"
-                                    android:background="@drawable/options_custom_form"
-                                    android:hint="Date Energized"/>
+                                    android:layout_weight="20">
+
+                                    <EditText
+                                        android:id="@+id/dateEnergized"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="5dp"
+                                        android:layout_marginRight="10dp"
+                                        android:inputType="text"
+                                        android:background="@drawable/options_custom_form"
+                                        android:layout_toLeftOf="@id/dateEnergizedBtn"
+                                        android:hint="Date Energized"/>
+
+                                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                                        android:id="@+id/dateEnergizedBtn"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        app:backgroundTint="@color/white"
+                                        android:textColor="@color/sc_primary_700"
+                                        app:fabSize="mini"
+                                        app:elevation="0dp"
+                                        android:src="@drawable/ic_baseline_update_24"
+                                        app:tint="@color/sc_primary_700"/>
+                                </RelativeLayout>
 
                             </TableRow>
 
@@ -608,6 +692,59 @@
                             android:hint="Remarks"/>
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- FILES -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:contentPadding="20dp"
+                    app:cardElevation="3px"
+                    tools:ignore="MissingConstraints">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Files Attached"
+                                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"/>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/minimize_files"
+                                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                                android:layout_width="40dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                app:icon="@drawable/baseline_remove_24" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@color/grey_light"/>
+
+                        <ListView
+                            android:id="@+id/filesList"
+                            android:layout_width="match_parent"
+                            android:descendantFocusability="blocksDescendants"
+                            android:layout_height="260dp">
+
+                        </ListView>
+
+                    </LinearLayout>
+
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
         </ScrollView>

@@ -63,11 +63,11 @@ public class ConnectionSettingsActivity extends AppCompatActivity {
     public void populateSpinners() {
         try {
             List<String> servers = new ArrayList<>();
-            servers.add("192.168.10.15");
-            servers.add("192.168.30.190");
-            servers.add("192.168.1.71");
+            servers.add("10.10.1.104");
+            servers.add("10.10.1.104:8004");
+            servers.add("139.135.152.68");
             servers.add("192.168.2.12");
-            servers.add("192.168.10.161");
+            servers.add("192.168.12.59");
             ArrayAdapter serversAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, servers.toArray());
             serversAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             serverSelect.setAdapter(serversAdapter);

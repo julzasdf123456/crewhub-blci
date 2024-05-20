@@ -4,6 +4,7 @@ import com.lopez.julz.crmcrewhub.classes.Barangays;
 import com.lopez.julz.crmcrewhub.classes.Login;
 import com.lopez.julz.crmcrewhub.classes.Towns;
 import com.lopez.julz.crmcrewhub.database.Crew;
+import com.lopez.julz.crmcrewhub.database.LineAndMetering;
 import com.lopez.julz.crmcrewhub.database.MeterInstallation;
 import com.lopez.julz.crmcrewhub.database.ServiceConnectionInspections;
 import com.lopez.julz.crmcrewhub.database.ServiceConnections;
@@ -16,10 +17,14 @@ import com.lopez.julz.crmcrewhub.database.TimeFramesDao;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface RequestPlaceHolder {
@@ -61,6 +66,9 @@ public interface RequestPlaceHolder {
     @POST("receive-meter-installations")
     Call<MeterInstallation> uploadMeterInstallations(@Body MeterInstallation meterInstallation);
 
+    @POST("receive-line-and-metering")
+    Call<LineAndMetering> uploadLineAndMetering(@Body LineAndMetering lineAndMetering);
+
     /**
      * Tickets
      */
@@ -81,4 +89,11 @@ public interface RequestPlaceHolder {
 
     @GET("get-archive-tickets")
     Call<List<Tickets>> getArchiveTickets(@Query("CrewAssigned") String CrewAssigned);
+
+    @GET("get-files")
+    Call<ResponseBody> getFiles(@Query("id") String id);
+
+    @Multipart
+    @POST("save-uploaded-images")
+    Call<ResponseBody> saveUploadedImages(@Query("svcId") String svcId, @Part List<MultipartBody.Part> files);
 }

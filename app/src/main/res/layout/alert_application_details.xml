@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date of Application"/>
+
+    <TextView
+        android:id="@+id/details_dateOfApplication"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/options_custom_form"
+        android:padding="5dp"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Date of Application"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Address"/>
+
+    <TextView
+        android:id="@+id/details_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/options_custom_form"
+        android:padding="5dp"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Address"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Account Type"/>
+
+    <TextView
+        android:id="@+id/details_accountType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/options_custom_form"
+        android:padding="5dp"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Account Type"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Load Type"/>
+
+    <TextView
+        android:id="@+id/details_loadType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/options_custom_form"
+        android:padding="5dp"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Load Type"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Contact Number"/>
+
+    <TextView
+        android:id="@+id/details_contactNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/options_custom_form"
+        android:padding="5dp"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:text="Contact Number"/>
+
+</LinearLayout>

@@ -9,6 +9,7 @@ import androidx.room.Room;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.lopez.julz.crmcrewhub.classes.ObjectHelpers;
 import com.lopez.julz.crmcrewhub.classes.UploadServiceConnectionsAdapter;
 import com.lopez.julz.crmcrewhub.classes.UploadTicketsAdapter;
 import com.lopez.julz.crmcrewhub.database.AppDatabase;
+import com.lopez.julz.crmcrewhub.database.LineAndMetering;
 import com.lopez.julz.crmcrewhub.database.MeterInstallation;
 import com.lopez.julz.crmcrewhub.database.ServiceConnections;
 import com.lopez.julz.crmcrewhub.database.ServiceConnectionsDao;
@@ -31,12 +33,17 @@ import com.lopez.julz.crmcrewhub.database.TimeFrames;
 import com.lopez.julz.crmcrewhub.database.TimeFramesDao;
 import com.mapbox.mapboxsdk.plugins.annotation.Line;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -71,6 +78,10 @@ public class UploadActivity extends AppCompatActivity {
     public AlertDialog dialog;
     public Settings settings;
 
+    public File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+    public List<LineAndMetering> lineAndMeteringList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +101,7 @@ public class UploadActivity extends AppCompatActivity {
         uploadTicketsAdapter = new UploadTicketsAdapter(ticketsList, this);
         uploadRecyclerViewTickets.setAdapter(uploadTicketsAdapter);
         uploadRecyclerViewTickets.setLayoutManager(new LinearLayoutManager(this));
+        lineAndMeteringList = new ArrayList<>();
 
         scProgressUpload.setVisibility(View.GONE);
         ticketsProgressUpload.setVisibility(View.GONE);
@@ -172,6 +184,19 @@ public class UploadActivity extends AppCompatActivity {
 
             serviceConnectionsList.addAll(serviceConnectionsDao.getUploadableServicConnections());
             meterInstallations.addAll(db.meterInstallationDao().getUploadable());
+            lineAndMeteringList.addAll(db.lineAndMeteringDao().getUploadables());
+
+            for(int i=0; i<serviceConnectionsList.size(); i++) {
+                File imgFile = new File(storageDir, "SIGN_" + serviceConnectionsList.get(i).getId() + ".png");
+                List<MultipartBody.Part> photoParts = new ArrayList<>();
+                if (imgFile.exists()) {
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), imgFile);
+                    MultipartBody.Part part = MultipartBody.Part.createFormData("files[]", imgFile.getName(), requestBody);
+                    photoParts.add(part);
+                }
+
+                uploadFile(photoParts, serviceConnectionsList.get(i).getId());
+            }
 
             return null;
         }
@@ -267,6 +292,42 @@ public class UploadActivity extends AppCompatActivity {
                     }
                 });
             } else {
+                // UPLOAD LINE AND METERING
+                uploadLineAndMetering();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void uploadLineAndMetering() {
+        try {
+            if (lineAndMeteringList.size() > 0) {
+                Call<LineAndMetering> lineAndMeteringCall = requestPlaceHolder.uploadLineAndMetering(lineAndMeteringList.get(0));
+
+                lineAndMeteringCall.enqueue(new Callback<LineAndMetering>() {
+                    @Override
+                    public void onResponse(Call<LineAndMetering> call, Response<LineAndMetering> response) {
+                        if (!response.isSuccessful()) {
+                            Log.e("ERR_UPLD_LN_MTRNG", response.raw().toString() + "\n" + response.errorBody().toString());
+                        } else {
+                            if (response.code() == 200) {
+                                new UpdateLineAndMetering().execute(lineAndMeteringList.get(0));
+                                lineAndMeteringList.remove(0);
+                                uploadLineAndMetering();
+                            } else {
+                                Log.e("ERR_UPLD_LN_MTRNG", response.raw().toString() + "\n" + response.errorBody().toString());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LineAndMetering> call, Throwable t) {
+                        Log.e("ERR_UPLD_LN_MTRNG", t.getMessage());
+                    }
+                });
+            } else {
                 // UPLOAD TICKETS
                 scProgressUpload.setVisibility(View.GONE);
                 if (ticketsList != null) {
@@ -278,6 +339,45 @@ public class UploadActivity extends AppCompatActivity {
                 }
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void uploadFile(List<MultipartBody.Part> files, String serviceConnectionId) {
+        try {
+
+            Call<ResponseBody> uploadCall = requestPlaceHolder.saveUploadedImages(serviceConnectionId, files);
+
+            uploadCall.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        if (response.code() == 200) {
+                            Log.e("UPLD_IMG_OK", "Image uploaded for : " + serviceConnectionId);
+                        } else {
+                            try {
+                                Log.e("ERR_UPLOD_IMG", response.errorBody().string());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    } else {
+                        Log.e("UPLD_IMG_ERR", response.message());
+                        try {
+                            Log.e("ERR_UPLOD_IMG", response.errorBody().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("UPLD_IMG_ERR", t.getMessage());
+                    t.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -445,6 +545,23 @@ public class UploadActivity extends AppCompatActivity {
                 if (meterInstallation != null) {
                     meterInstallation.setUploadStatus("Uploaded");
                     db.meterInstallationDao().updateAll(meterInstallation);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class UpdateLineAndMetering extends AsyncTask<LineAndMetering, Void, Void> {
+
+        @Override
+        protected Void doInBackground(LineAndMetering... lineAndMeterings) {
+            try {
+                LineAndMetering lam = lineAndMeterings[0];
+                if (lam != null) {
+                    lam.setUploadable("Uploaded");
+                    db.lineAndMeteringDao().update(lam);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
     implementation 'com.github.Miihir79:DrawingCanvas:1.1.2'
+    implementation 'com.github.barteksc:android-pdf-viewer:3.2.0-beta.1'
     // room - database
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"

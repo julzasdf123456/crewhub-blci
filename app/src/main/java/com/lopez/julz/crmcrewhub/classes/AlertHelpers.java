@@ -3,11 +3,9 @@ package com.lopez.julz.crmcrewhub.classes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.InputType;
-import android.util.Log;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
+import com.lopez.julz.crmcrewhub.R;
 
 public class AlertHelpers {
 
@@ -55,6 +53,22 @@ public class AlertHelpers {
             dialog.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static AlertDialog progressDialog(Context context, String title, String message) {
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setCancelable(false);
+            builder.setView(R.layout.progress_dialog)
+                    .setTitle(title)
+                    .setMessage(message);
+
+            return builder.create();
+        } catch (Exception e) {
+            AlertHelpers.showInfoDialog(context, "Error Showing Dialog", e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 }

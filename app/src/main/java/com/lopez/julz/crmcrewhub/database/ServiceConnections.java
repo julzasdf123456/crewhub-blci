@@ -168,9 +168,18 @@ public class ServiceConnections {
     @ColumnInfo(name = "Block")
     private String Block;
 
+    @ColumnInfo(name = "BarangayCode")
+    private String BarangayCode;
+
+    @ColumnInfo(name = "TypeOfCustomer")
+    private String TypeOfCustomer;
+
+    @ColumnInfo(name = "NumberOfAccounts")
+    private String NumberOfAccounts;
+
     public ServiceConnections() {}
 
-    public ServiceConnections(@NonNull String id, String memberConsumerId, String dateOfApplication, String serviceAccountName, String accountCount, String sitio, String barangay, String town, String contactNumber, String emailAddress, String accountType, String accountOrganization, String organizationAccountNumber, String isNIHE, String accountApplicationType, String connectionApplicationType, String buildingType, String status, String notes, String trash, String ORNumber, String ORDate, String dateTimeLinemenArrived, String dateTimeOfEnergization, String energizationOrderIssued, String dateTimeOfEnergizationIssue, String stationCrewAssigned, String loadCategory, String temporaryDurationInMonths, String longSpan, String uploadStatus, String linemanCrewExecuted, String meterSerialNumber, String meterBrand, String meterSealNumber, String verifier, String accountTypeWord, String typeOfOccupancy, String residenceNumber, String accountNumber, String serviceNumber, String userId, String connectionSchedule, String timeOfApplication, String certificateOfConnectionIssuedOn, String loadType, String loadInKva, String zone, String transformerID, String poleNumber, String feeder, String chargeTo, String block) {
+    public ServiceConnections(@NonNull String id, String memberConsumerId, String dateOfApplication, String serviceAccountName, String accountCount, String sitio, String barangay, String town, String contactNumber, String emailAddress, String accountType, String accountOrganization, String organizationAccountNumber, String isNIHE, String accountApplicationType, String connectionApplicationType, String buildingType, String status, String notes, String trash, String ORNumber, String ORDate, String dateTimeLinemenArrived, String dateTimeOfEnergization, String energizationOrderIssued, String dateTimeOfEnergizationIssue, String stationCrewAssigned, String loadCategory, String temporaryDurationInMonths, String longSpan, String uploadStatus, String linemanCrewExecuted, String meterSerialNumber, String meterBrand, String meterSealNumber, String verifier, String accountTypeWord, String typeOfOccupancy, String residenceNumber, String accountNumber, String serviceNumber, String userId, String connectionSchedule, String timeOfApplication, String certificateOfConnectionIssuedOn, String loadType, String loadInKva, String zone, String transformerID, String poleNumber, String feeder, String chargeTo, String block, String barangayCode, String typeOfCustomer, String numberOfAccounts) {
         this.id = id;
         MemberConsumerId = memberConsumerId;
         DateOfApplication = dateOfApplication;
@@ -224,6 +233,9 @@ public class ServiceConnections {
         Feeder = feeder;
         ChargeTo = chargeTo;
         Block = block;
+        BarangayCode = barangayCode;
+        TypeOfCustomer = typeOfCustomer;
+        NumberOfAccounts = numberOfAccounts;
     }
 
     @NonNull
@@ -649,5 +661,29 @@ public class ServiceConnections {
 
     public void setBlock(String block) {
         Block = block;
+    }
+
+    public String getBarangayCode() {
+        return BarangayCode;
+    }
+
+    public void setBarangayCode(String barangayCode) {
+        BarangayCode = barangayCode;
+    }
+
+    public String getTypeOfCustomer() {
+        return TypeOfCustomer;
+    }
+
+    public void setTypeOfCustomer(String typeOfCustomer) {
+        TypeOfCustomer = typeOfCustomer;
+    }
+
+    public String getNumberOfAccounts() {
+        return NumberOfAccounts;
+    }
+
+    public void setNumberOfAccounts(String numberOfAccounts) {
+        NumberOfAccounts = numberOfAccounts;
     }
 }

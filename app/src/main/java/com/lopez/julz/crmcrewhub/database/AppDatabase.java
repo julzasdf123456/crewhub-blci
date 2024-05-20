@@ -19,7 +19,8 @@ import com.lopez.julz.crmcrewhub.classes.Towns;
         Settings.class,
         StationCrews.class,
         MeterInstallation.class,
-}, version = 62)
+        LineAndMetering.class
+}, version = 66)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UsersDao usersDao();
 
@@ -38,12 +39,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TicketsDao ticketsDao();
 
     public abstract CrewDao crewDao();
-
     public abstract AppConfigDao appConfigDao();
-
     public abstract SettingsDao settingsDao();
-
     public abstract StationCrewsDao stationCrewsDao();
-
     public abstract MeterInstallationDao meterInstallationDao();
+
+    public abstract LineAndMeteringDao lineAndMeteringDao();
 }

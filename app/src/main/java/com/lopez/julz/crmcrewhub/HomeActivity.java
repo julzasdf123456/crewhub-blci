@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,12 +22,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonParser;
@@ -73,6 +77,7 @@ import com.mapbox.mapboxsdk.plugins.annotation.OnSymbolLongClickListener;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+import com.mapbox.mapboxsdk.style.layers.Property;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +113,6 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
     public RecyclerView recyclerviewScHome;
     public List<ServiceConnections> serviceConnectionsList;
     public HomeServiceConnectionsQueueAdapter homeServiceConnectionsQueueAdapter;
-    public TextView scQueueTitle;
 
     /**
      * TICKETS
@@ -116,7 +120,6 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
     public RecyclerView recyclerviewTicketsHome;
     public List<Tickets> ticketsList;
     public TicketsHomeAdapter ticketsHomeAdapter;
-    public TextView ticketsQueueTitle;
 
     // mapbox markers from active queue
     public List<ServiceConnectionInspections> inspectionsList;
@@ -129,6 +132,13 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
      * CONFIG VALUES
      */
     public String userId, crew;
+
+
+    /**
+     * NEW UI
+     */
+    public ExtendedFloatingActionButton ticketsBottomSheetBtn, serviceConnectionsBottomSheetBtn;
+    public BottomSheetDialog ticketsBottomSheetDialog, serviceConnectionsBottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,29 +169,31 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
         statusprogress.setVisibility(View.GONE);
         statustext.setVisibility(View.GONE);
 
+
         /**
          * Service Connections
          */
-        recyclerviewScHome = findViewById(R.id.recyclerviewScHome);
-        scQueueTitle = findViewById(R.id.scQueueTitle);
         serviceConnectionsList = new ArrayList<>();
         inspectionsList = new ArrayList<>();
         homeServiceConnectionsQueueAdapter = new HomeServiceConnectionsQueueAdapter(serviceConnectionsList, this, userId, crew);
-        recyclerviewScHome.setAdapter(homeServiceConnectionsQueueAdapter);
-        recyclerviewScHome.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerviewScHome.setAdapter(homeServiceConnectionsQueueAdapter);
+//        recyclerviewScHome.setLayoutManager(new LinearLayoutManager(this));
 
 
         /**
          * Tickets
          */
-        ticketsQueueTitle = findViewById(R.id.ticketsQueueTitle);
-        recyclerviewTicketsHome = findViewById(R.id.recyclerviewTicketsHome);
         ticketsList = new ArrayList<>();
         ticketsHomeAdapter = new TicketsHomeAdapter(ticketsList, this, crew);
-        recyclerviewTicketsHome.setAdapter(ticketsHomeAdapter);
-        recyclerviewTicketsHome.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerviewTicketsHome.setAdapter(ticketsHomeAdapter);
+//        recyclerviewTicketsHome.setLayoutManager(new LinearLayoutManager(this));
 
-        selectTab(scQueueTitle, ticketsQueueTitle, recyclerviewScHome, recyclerviewTicketsHome);
+        /**
+         * NEW UI
+         */
+        ticketsBottomSheetBtn = findViewById(R.id.ticketsBottomSheetBtn);
+        serviceConnectionsBottomSheetBtn = findViewById(R.id.serviceConnectionsBottomSheetBtn);
+
 
         new FetchSettings().execute();
 
@@ -242,20 +254,6 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
             }
         });
 
-        scQueueTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectTab(scQueueTitle, ticketsQueueTitle, recyclerviewScHome, recyclerviewTicketsHome);
-            }
-        });
-
-        ticketsQueueTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectTab(ticketsQueueTitle, scQueueTitle, recyclerviewTicketsHome, recyclerviewScHome);
-            }
-        });
-
         archive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,6 +261,124 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
                 intent.putExtra("CREW", crew);
                 intent.putExtra("USERID", userId);
                 startActivity(intent);
+            }
+        });
+
+        /**
+         * NEW UI
+         */
+        serviceConnectionsBottomSheetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /**
+                 * SERViCE CONNECTIONS BOTTOM SHEET
+                 */
+                serviceConnectionsBottomSheetDialog = new BottomSheetDialog(
+                        HomeActivity.this, R.style.Theme_Design_Light_BottomSheetDialog);
+                LayoutInflater inflater = LayoutInflater.from(HomeActivity.this);
+
+                View serviceConnectionsBottomSheetView = inflater.inflate(R.layout.bottomsheet_service_connections, (CoordinatorLayout) findViewById(R.id.modalBottomSheetContainerServiceConnections));
+
+                TextView serviceConnectionsTitle = serviceConnectionsBottomSheetView.findViewById(R.id.serviceConnectionsTitle);
+
+                serviceConnectionsBottomSheetView.findViewById(R.id.closeServiceConnectionBottomSheet).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (serviceConnectionsBottomSheetDialog.isShowing()) {
+                            serviceConnectionsBottomSheetDialog.dismiss();
+                        }
+                    }
+                });
+
+                RecyclerView recyclerviewServiceConnectionsBottomList = serviceConnectionsBottomSheetView.findViewById(R.id.recyclerviewServiceConnectionsBottomList);
+                recyclerviewServiceConnectionsBottomList.setAdapter(homeServiceConnectionsQueueAdapter);
+                recyclerviewServiceConnectionsBottomList.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+                serviceConnectionsTitle.setText("Service Connections (" + serviceConnectionsList.size() + ")");
+                homeServiceConnectionsQueueAdapter.notifyDataSetChanged();
+
+                serviceConnectionsBottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
+                serviceConnectionsBottomSheetDialog.setContentView(serviceConnectionsBottomSheetView);
+                serviceConnectionsBottomSheetDialog.show();
+            }
+        });
+
+        ticketsBottomSheetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /**
+                 * TICKETS BOTTOM SHEET
+                 */
+                ticketsBottomSheetDialog = new BottomSheetDialog(
+                        HomeActivity.this, R.style.Theme_Design_Light_BottomSheetDialog);
+                LayoutInflater inflater = LayoutInflater.from(HomeActivity.this);
+
+                ticketsBottomSheetDialog.setCancelable(false);
+
+                View ticketsBottomSheetView = inflater.inflate(R.layout.bottomsheet_tickets_list, (CoordinatorLayout) findViewById(R.id.modalBottomSheetContainer));
+
+                /*
+                ticketsTable = ticketsBottomSheetView.findViewById(R.id.ticketsTable);
+                tableViewListener = new TableViewListener(HomeActivity.this);
+                ticketsTable.setTableViewListener(tableViewListener);
+
+                 */
+
+                ticketsBottomSheetView.findViewById(R.id.closeTicketBottomSheet).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ticketsBottomSheetDialog.isShowing()) {
+                            ticketsBottomSheetDialog.dismiss();
+                        }
+                    }
+                });
+
+                TextView ticketsTitle = ticketsBottomSheetView.findViewById(R.id.ticketsTitle);
+
+                RecyclerView recyclerviewTicketsBottomList = ticketsBottomSheetView.findViewById(R.id.recyclerviewTicketsBottomList);
+                recyclerviewTicketsBottomList.setAdapter(ticketsHomeAdapter);
+                recyclerviewTicketsBottomList.setLayoutManager(new LinearLayoutManager(HomeActivity.this));
+
+                ticketsTitle.setText("Tickets (" + ticketsList.size() + ")");
+
+                ticketsHomeAdapter.notifyDataSetChanged();
+
+                /**
+                 * TICKETS TABLE LAYOUT
+
+                 ticketsTableAdapter = new TicketsTableAdapter();
+                 ticketsTable.setAdapter(ticketsTableAdapter);
+                 ticketsTableAdapter.setAllItems(mTicketColumnHeaderList, mTicketRowHeaderList, mTicketCellList);
+
+                 tableViewListener.setMapViewListener(new TableViewListener.MapViewListener() {
+                @Override
+                public void changeLocation(int position) {
+                if (ticketsTableDisplayMatrixList.get(position).getGeoLocation() != null) {
+                Double ticketLat = Double.valueOf(ticketsTableDisplayMatrixList.get(position).getGeoLocation().split(",")[0]);
+                Double ticketLong = Double.valueOf(ticketsTableDisplayMatrixList.get(position).getGeoLocation().split(",")[1].trim());
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(ticketLat, ticketLong))      // Sets the center of the map to Mountain View
+                .zoom(16.5)                      // Sets the tilt of the camera to 30 degrees
+                .build();
+
+                if (mapboxMap != null) {
+                ticketsBottomSheetDialog.dismiss();
+                mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition), 1200);
+                } else {
+                Toast.makeText(HomeActivity.this, "Map is still loading, try again in a couple of seconds", Toast.LENGTH_LONG).show();
+                }
+                } else {
+                Toast.makeText(HomeActivity.this, "No Geo Location recorded for this ticket", Toast.LENGTH_LONG).show();
+                }
+
+                }
+                });
+
+                 */
+
+                ticketsBottomSheetDialog.getBehavior().setState(BottomSheetBehavior.STATE_EXPANDED);
+                ticketsBottomSheetDialog.setContentView(ticketsBottomSheetView);
+                ticketsBottomSheetDialog.show();
             }
         });
     }
@@ -430,10 +546,19 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
                         SymbolOptions symbolOptions = new SymbolOptions()
                                 .withLatLng(new LatLng(ticketLat, ticketLong))
                                 .withData(new JsonParser().parse("{" +
-                                        "'id' : '" + tickets.getId() + "'," +
-                                        "'ticketId' : '" + tickets.getId() + "'}"))
-                                .withIconImage("tw-provincial-2")
-                                .withIconSize(.35f);
+                                        "'id' : '" + ticketsList.get(i).getId() + "'," +
+                                        "'ticketId' : '" + ticketsList.get(i).getId() + "'}"))
+                                .withIconImage("marker-blue")
+                                .withIconSize(.42f)
+                                .withTextAnchor(ticketsList.get(i).getConsumerName())
+                                .withTextField(ticketsList.get(i).getConsumerName())
+                                .withTextSize(12.15f)
+                                .withTextOffset(new Float[]{5.2f, 0f})
+                                .withTextColor("#ffffff")
+                                .withTextHaloColor("#00A4F1")
+                                .withTextHaloWidth(40f)
+                                .withTextHaloBlur(3f)
+                                .withTextJustify(Property.TEXT_JUSTIFY_LEFT);
 
                         Symbol symbol = symbolManager.create(symbolOptions);
                     }
@@ -484,10 +609,19 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
                         SymbolOptions symbolOptions = new SymbolOptions()
                                 .withLatLng(new LatLng(Double.valueOf(lati), Double.valueOf(longi)))
                                 .withData(new JsonParser().parse("{" +
-                                                                            "'id' : '" + insp.getId() + "'," +
-                                                                            "'scId' : '" + insp.getServiceConnectionId() + "'}"))
-                                .withIconImage("tw-provincial-expy-2")
-                                .withIconSize(.35f);
+                                        "'id' : '" + insp.getId() + "'," +
+                                        "'scId' : '" + insp.getServiceConnectionId() + "'}"))
+                                .withIconImage("place-black-24dp")
+                                .withIconSize(1.25f)
+                                .withTextAnchor(insp.getNotes())
+                                .withTextField(insp.getNotes())
+                                .withTextSize(12.15f)
+                                .withTextOffset(new Float[]{5f, 0f})
+                                .withTextColor("#ffffff")
+                                .withTextHaloColor("#F13800")
+                                .withTextHaloWidth(40f)
+                                .withTextHaloBlur(3f)
+                                .withTextJustify(Property.TEXT_JUSTIFY_LEFT);
 
                         Symbol symbol = symbolManager.create(symbolOptions);
                     } else {
@@ -500,10 +634,15 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
                 @Override
                 public boolean onAnnotationClick(Symbol symbol) {
 //                    Toast.makeText(HomeActivity.this, symbol.getData().getAsJsonObject().get("scId").getAsString(), Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(HomeActivity.this, UpdateServiceConnectionsActivity.class);
+//                    Intent intent = new Intent(HomeActivity.this, UpdateServiceConnectionsActivity.class);
+//                    intent.putExtra("SCID", symbol.getData().getAsJsonObject().get("scId").getAsString());
+//                    intent.putExtra("INSP_ID", symbol.getData().getAsJsonObject().get("id").getAsString());
+//                    intent.putExtra("USERID", userId);
+//                    startActivity(intent);
+                    Intent intent = new Intent(HomeActivity.this, UpdateApplication.class);
                     intent.putExtra("SCID", symbol.getData().getAsJsonObject().get("scId").getAsString());
-                    intent.putExtra("INSP_ID", symbol.getData().getAsJsonObject().get("id").getAsString());
                     intent.putExtra("USERID", userId);
+                    intent.putExtra("CREW", crew);
                     startActivity(intent);
                     return false;
                 }
@@ -790,6 +929,7 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
 
                     // FETCH INSPECTIONS FROM ACTIVE QUEUE
                     ServiceConnectionInspections inspection = serviceConnectionInspectionsDao.getOneByServiceConnectionId(serviceConnections.get(i).getId());
+//                    inspection.setNotes(serviceConnections.get(i).getServiceAccountName());
 //                    Log.e("TEST", serviceConnections.get(i).getServiceAccountName());
                     inspectionsList.add(inspection);
                 }
@@ -810,7 +950,6 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             homeServiceConnectionsQueueAdapter.notifyDataSetChanged();
-            scQueueTitle.setText("Service Connections (" + serviceConnectionsList.size() + ")");
             if (symbolManager != null) {
                 symbolManager.deleteAll();
             }
@@ -966,7 +1105,7 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             Log.e("TICKT_SVD", "All ticket repositories downloaded");
-            getTicketArchives();
+//            getTicketArchives();
         }
     }
 
@@ -994,7 +1133,6 @@ public class HomeActivity extends AppCompatActivity implements PermissionsListen
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             ticketsHomeAdapter.notifyDataSetChanged();
-            ticketsQueueTitle.setText("Tickets/Complains (" + ticketsList.size() + ")");
 
             addTicketMarkers(style);
         }

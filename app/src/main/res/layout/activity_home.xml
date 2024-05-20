@@ -6,84 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-    <!--  Service Connections Panel  -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="260dp"
-        android:layout_height="wrap_content"
-        app:contentPadding="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="80dp"
-        android:layout_gravity="left|top">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/scQueueTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Service Connections"
-                        android:layout_column="1"
-                        android:layout_weight="10"
-                        android:paddingTop="8dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:background="?android:selectableItemBackground"/>
-
-                    <TextView
-                        android:id="@+id/ticketsQueueTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tickets/Complains"
-                        android:layout_column="2"
-                        android:layout_weight="10"
-                        android:paddingTop="8dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="8dp"
-                        android:gravity="center"
-                        android:clickable="true"
-                        android:background="?android:selectableItemBackground"/>
-
-                </TableRow>
-
-            </TableLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/grey_light"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewScHome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewTicketsHome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
     <!--  Menu Panel  -->
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
@@ -186,12 +108,46 @@
         android:layout_height="match_parent"
         app:mapbox_cameraZoom="13" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|right">
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/serviceConnectionsBottomSheetBtn"
+            android:text="Turn Ons"
+            android:textColor="@color/white"
+            android:gravity="center"
+            app:icon="@drawable/baseline_house_24"
+            app:iconTint="@color/white"
+            app:backgroundTint="@color/sc_primary_500"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/ticketsBottomSheetBtn"
+            android:text="Tickets"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            app:backgroundTint="@color/primary_500"
+            app:icon="@drawable/baseline_add_alert_24"
+            app:iconTint="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
     <!--  STATUS BAR  -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:orientation="horizontal"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="top|left"
         android:layout_marginBottom="5dp">
 
         <TextView
